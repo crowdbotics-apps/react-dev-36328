@@ -89,7 +89,7 @@ platform(:ios) do
     gym(export_method: "ad-hoc", scheme: "Debug")
   end
 
-  desc('Create a new beta build to TestFlight')
+  desc('Create development build')
   lane(:create_build_dev) do
     init_app
 
