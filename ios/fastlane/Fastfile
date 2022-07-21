@@ -83,6 +83,32 @@ platform(:ios) do
     )
   end
 
+  desc "Ad-hoc build"
+  lane :adhoc do
+    match(type: "adhoc")
+    gym(export_method: "ad-hoc", scheme: "Debug")
+  end
+
+  desc('Create a new beta build to TestFlight')
+  lane(:create_build_dev) do
+    init_app
+
+    build_setup
+
+    settings_to_override = {
+      BUNDLE_IDENTIFIER: identifier,
+      PROVISIONING_PROFILE_SPECIFIER: "match AppStore #{identifier}",
+      OTHER_CODE_SIGN_FLAGS: "--generate-entitlement-der"
+    }
+
+    build_app(
+      scheme: base_name,
+      export_method: 'development',
+      xcargs: settings_to_override,
+      output_name: 'app-development.ipa'
+    )
+  end
+
   desc('Create a new beta build to TestFlight')
   lane(:create_build) do
     init_app
@@ -91,7 +117,8 @@ platform(:ios) do
 
     settings_to_override = {
       BUNDLE_IDENTIFIER: identifier,
-      PROVISIONING_PROFILE_SPECIFIER: "match AppStore #{identifier}"
+      PROVISIONING_PROFILE_SPECIFIER: "match AppStore #{identifier}",
+      OTHER_CODE_SIGN_FLAGS: "--generate-entitlement-der"
     }
 
     build_app(
