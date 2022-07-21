@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-gem "fastlane", "~>2.205.0"
+gem "fastlane"
 gem "httparty"
 gem "cocoapods"
 
