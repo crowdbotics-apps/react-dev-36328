@@ -93,7 +93,20 @@ platform(:ios) do
   lane(:create_build_dev) do
     init_app
 
-    build_setup
+    update_app_identifier(
+      xcodeproj: filename,
+      plist_path: "#{base_name}/Info.plist",
+      app_identifier: identifier
+    )
+
+    update_project_team(path: filename, teamid: team_id)
+
+    match(type: 'development', readonly: false)
+
+    disable_automatic_code_signing(
+      path: filename,
+      code_sign_identity: "Apple Distribution: #{team_name} (#{team_id})"
+    )
 
     settings_to_override = {
       BUNDLE_IDENTIFIER: identifier,

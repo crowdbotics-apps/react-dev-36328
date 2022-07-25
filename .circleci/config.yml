@@ -1,4 +1,4 @@
-version: 2.1
+version: 2
 jobs:
   node:
     working_directory: ~/build
@@ -144,13 +144,6 @@ jobs:
       - checkout
 
       - run:
-          name: Check if app has a paid plan
-          command: |
-            if [ "$HAS_PAID_PLAN" != 1 ]; then
-              exit 1
-            fi
-
-      - run:
           name: set Ruby version
           command: echo "ruby-2.5" > ~/.ruby-version
 
@@ -210,10 +203,10 @@ jobs:
           name: Populate EnvFile
           command: env >> .env
 
-      # - run:
-      #     name: Run tests
-      #     command: bundle exec fastlane tests
-      #     working_directory: ios
+      - run:
+          name: Run tests
+          command: bundle exec fastlane tests
+          working_directory: ios
 
       # - run:
       #     name: Set up test results
@@ -245,13 +238,13 @@ jobs:
       # - store_artifacts:
       #     path: ios/app-release.ipa
 
-      - run:
-          name: Create development build
-          command: bundle exec fastlane create_build_dev
-          working_directory: ios
+      # - run:
+      #     name: Create development build
+      #     command: bundle exec fastlane create_build_dev
+      #     working_directory: ios
 
-      - store_artifacts:
-          path: ios/app-development.ipa
+      # - store_artifacts:
+      #     path: ios/app-development.ipa
 
       - run:
           name: Webhook Success
@@ -264,7 +257,7 @@ jobs:
           when: on_fail
 
 workflows:
-  version: 2.1
+  version: 2
   node-android-ios:
     jobs:
       - node
