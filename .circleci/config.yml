@@ -203,10 +203,10 @@ jobs:
           name: Populate EnvFile
           command: env >> .env
 
-      - run:
-          name: Run tests
-          command: bundle exec fastlane tests
-          working_directory: ios
+      # - run:
+      #     name: Run tests
+      #     command: bundle exec fastlane tests
+      #     working_directory: ios
 
       # - run:
       #     name: Set up test results
@@ -238,13 +238,13 @@ jobs:
       # - store_artifacts:
       #     path: ios/app-release.ipa
 
-      # - run:
-      #     name: Create development build
-      #     command: bundle exec fastlane create_build_dev
-      #     working_directory: ios
+      - run:
+          name: Create development build
+          command: bundle exec fastlane create_build_dev
+          working_directory: ios
 
-      # - store_artifacts:
-      #     path: ios/app-development.ipa
+      - store_artifacts:
+          path: ios/app-development.ipa
 
       - run:
           name: Webhook Success
